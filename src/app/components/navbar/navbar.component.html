@@ -1,0 +1,40 @@
+<div class="navbar bg-base-100 shadow-sm">
+  <div class="flex-1">
+    <a
+      routerLink="/"
+      class="btn btn-ghost normal-case text-xl text-primary font-bold"
+    >
+      🩸 Blood Donation Portal
+    </a>
+  </div>
+
+  <div class="flex-none gap-2">
+    <ul class="menu menu-horizontal px-1 hidden sm:flex">
+      <li>
+        <a routerLink="/register" routerLinkActive="active">Register</a>
+      </li>
+      <li>
+        <a routerLink="/admin/donors" routerLinkActive="active">Admin</a>
+      </li>
+    </ul>
+
+    <div class="dropdown dropdown-end" *ngIf="user$ | async as user; else guest">
+      <label tabindex="0" class="btn btn-ghost btn-circle avatar placeholder">
+        <div class="bg-primary text-primary-content rounded-full w-10">
+          <span>{{ user.name[0] | uppercase }}</span>
+        </div>
+      </label>
+      <ul
+        tabindex="0"
+        class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+      >
+        <li class="px-2 py-1 text-sm opacity-70">Hi, {{ user.name }}</li>
+        <li><a (click)="logout()">Logout</a></li>
+      </ul>
+    </div>
+
+    <ng-template #guest>
+      <a routerLink="/login" class="btn btn-primary btn-sm">Login</a>
+    </ng-template>
+  </div>
+</div>

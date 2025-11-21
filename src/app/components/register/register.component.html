@@ -1,0 +1,155 @@
+<div class="max-w-2xl mx-auto">
+  <h2 class="text-3xl font-bold mb-4">Donor Registration</h2>
+  <p class="mb-6 opacity-80">
+    Fill in your details below to register as a blood donor. We’ll share your
+    information only with verified organizations in need.
+  </p>
+
+  <form
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    class="card bg-base-100 shadow-xl p-6 space-y-4"
+  >
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Full Name</span>
+        </label>
+        <input
+          type="text"
+          formControlName="name"
+          class="input input-bordered"
+          [class.input-error]="form.get('name')?.invalid && form.get('name')?.touched"
+        />
+        <label class="label" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+          <span class="label-text-alt text-error">Name is required</span>
+        </label>
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Email</span>
+        </label>
+        <input
+          type="email"
+          formControlName="email"
+          class="input input-bordered"
+          [class.input-error]="form.get('email')?.invalid && form.get('email')?.touched"
+        />
+        <label class="label" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+          <span class="label-text-alt text-error">Valid email is required</span>
+        </label>
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Password</span>
+        </label>
+        <input
+          type="password"
+          formControlName="password"
+          class="input input-bordered"
+          [class.input-error]="form.get('password')?.invalid && form.get('password')?.touched"
+        />
+        <label
+          class="label"
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+        >
+          <span class="label-text-alt text-error">
+            Password must be at least 6 characters
+          </span>
+        </label>
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Phone</span>
+        </label>
+        <input
+          type="text"
+          formControlName="phone"
+          class="input input-bordered"
+          [class.input-error]="form.get('phone')?.invalid && form.get('phone')?.touched"
+        />
+        <label class="label" *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched">
+          <span class="label-text-alt text-error">Phone is required</span>
+        </label>
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Blood Group</span>
+        </label>
+        <select
+          formControlName="bloodGroup"
+          class="select select-bordered"
+          [class.select-error]="form.get('bloodGroup')?.invalid && form.get('bloodGroup')?.touched"
+        >
+          <option value="">Select</option>
+          <option *ngFor="let bg of bloodGroups" [value]="bg">{{ bg }}</option>
+        </select>
+        <label
+          class="label"
+          *ngIf="form.get('bloodGroup')?.invalid && form.get('bloodGroup')?.touched"
+        >
+          <span class="label-text-alt text-error">Please select a blood group</span>
+        </label>
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">City</span>
+        </label>
+        <input
+          type="text"
+          formControlName="city"
+          class="input input-bordered"
+          [class.input-error]="form.get('city')?.invalid && form.get('city')?.touched"
+        />
+        <label class="label" *ngIf="form.get('city')?.invalid && form.get('city')?.touched">
+          <span class="label-text-alt text-error">City is required</span>
+        </label>
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Last Donation Date (optional)</span>
+        </label>
+        <input
+          type="date"
+          formControlName="lastDonationDate"
+          class="input input-bordered"
+        />
+      </div>
+    </div>
+
+    <div class="form-control">
+      <label class="cursor-pointer label">
+        <span class="label-text">Available for donation</span>
+        <input
+          type="checkbox"
+          formControlName="isAvailable"
+          class="toggle toggle-primary"
+        />
+      </label>
+    </div>
+
+    <div class="flex items-center gap-4 pt-2">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="loading || form.invalid"
+      >
+        <span *ngIf="!loading">Register</span>
+        <span class="loading loading-spinner" *ngIf="loading"></span>
+      </button>
+
+      <span *ngIf="successMsg" class="text-success text-sm">
+        {{ successMsg }}
+      </span>
+      <span *ngIf="errorMsg" class="text-error text-sm">
+        {{ errorMsg }}
+      </span>
+    </div>
+  </form>
+</div>

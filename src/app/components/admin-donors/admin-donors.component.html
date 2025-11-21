@@ -1,0 +1,60 @@
+<div class="space-y-4">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <h2 class="text-3xl font-bold">Registered Donors</h2>
+    <span class="badge badge-outline" *ngIf="donors?.length">
+      Total donors: {{ donors.length }}
+    </span>
+  </div>
+
+  <p *ngIf="loading" class="flex items-center gap-2">
+    <span class="loading loading-spinner loading-sm"></span> Loading donors...
+  </p>
+
+  <p *ngIf="errorMsg" class="text-error">{{ errorMsg }}</p>
+
+  <div *ngIf="!loading && donors.length" class="overflow-x-auto">
+    <table class="table table-zebra table-sm md:table-md">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Blood Group</th>
+          <th>City</th>
+          <th>Last Donation</th>
+          <th>Available</th>
+          <th>Registered On</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let d of donors; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ d.name }}</td>
+          <td class="whitespace-nowrap">{{ d.email }}</td>
+          <td class="whitespace-nowrap">{{ d.phone }}</td>
+          <td>
+            <span class="badge badge-primary badge-outline">
+              {{ d.bloodGroup }}
+            </span>
+          </td>
+          <td>{{ d.city }}</td>
+          <td>{{ d.lastDonationDate | date: 'mediumDate' }}</td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="d.isAvailable ? 'badge-success' : 'badge-ghost'"
+            >
+              {{ d.isAvailable ? 'Yes' : 'No' }}
+            </span>
+          </td>
+          <td>{{ d.createdAt | date: 'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p *ngIf="!loading && !donors.length" class="opacity-70">
+    No donors registered yet.
+  </p>
+</div>
