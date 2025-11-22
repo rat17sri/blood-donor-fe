@@ -36,11 +36,7 @@ export class LoginComponent {
     this.auth.login(email, password).subscribe({
       next: res => {
         this.loading = false;
-        if (res.user.role === 'admin') {
-          this.router.navigateByUrl('/admin/donors');
-        } else {
-          this.router.navigateByUrl('/');
-        }
+        this.router.navigateByUrl('/');
       },
       error: err => {
         this.loading = false;

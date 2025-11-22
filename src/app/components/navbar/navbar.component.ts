@@ -1,3 +1,4 @@
+// client/src/app/components/navbar/navbar.component.ts
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 export class NavbarComponent {
   user$ = this.auth.currentUser$;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) { }
 
   logout() {
     this.auth.logout();

@@ -1,24 +1,140 @@
-<div class="hero min-h-[70vh]">
-  <div class="hero-content flex-col lg:flex-row-reverse gap-10">
-    <img
-      src="https://images.pexels.com/photos/4226112/pexels-photo-4226112.jpeg"
-      class="max-w-sm rounded-lg shadow-2xl"
-      alt="Blood donation"
-    />
-    <div>
-      <h1 class="text-4xl font-bold">
-        Become a <span class="text-primary">lifesaver</span> today 🩸
-      </h1>
-      <p class="py-6 max-w-xl">
-        Register as a blood donor so that hospitals and NGOs can reach you
-        quickly in emergencies. Your small act can save someone's life.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <a routerLink="/register" class="btn btn-primary">
-          Register as Donor
-        </a>
-        <a routerLink="/login" class="btn btn-outline">Admin / Donor Login</a>
+<!-- MAIN WRAPPER -->
+<ng-container *ngIf="user$ | async as user; else guestView">
+  <!-- LOGGED-IN VIEW -->
+  <section
+    class="min-h-[70vh] flex items-center justify-center px-4 py-10 bg-gradient-to-br from-base-200/40 to-base-100">
+    <div class="max-w-6xl w-full grid gap-10 lg:grid-cols-[1.6fr,1fr] items-center">
+      <!-- LEFT CONTENT -->
+      <div class="space-y-6">
+        <p class="text-sm uppercase tracking-[0.2em] opacity-70">
+          {{ user.role === 'admin' ? 'Admin Dashboard' : 'Donor Dashboard' }}
+        </p>
+
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+          Welcome back, <br>
+          <span class="text-primary">{{ user.name }}</span> 🩸
+        </h1>
+
+        <p class="text-base md:text-lg opacity-80 max-w-xl">
+          {{
+          user.role === 'admin'
+          ? 'You can view and manage the list of registered donors. Use the admin panel to quickly find donors by blood
+          group and location when every minute matters.'
+          : 'Thanks for registering as a blood donor. Your details help hospitals and NGOs reach you quickly in
+          emergencies. Keep your information updated so we can contact you when it matters most.'
+          }}
+        </p>
+
+        <!-- ACTIONS -->
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a *ngIf="user.role === 'admin'" routerLink="/admin/donors"
+            class="btn btn-primary btn-lg shadow-md hover:scale-105 transition-transform">
+            View Donor List
+          </a>
+        </div>
+
+        <!-- SMALL INFO STRIP -->
+        <div class="mt-6 grid gap-4 sm:grid-cols-3 bg-base-100/60 border border-base-200 rounded-2xl p-4 backdrop-blur">
+          <div class="space-y-1">
+            <p class="text-xs uppercase opacity-60">Status</p>
+            <p class="font-semibold">
+              {{ user.role === 'admin' ? 'Admin access' : 'Registered donor' }}
+            </p>
+          </div>
+          <div class="space-y-1">
+            <p class="text-xs uppercase opacity-60">Portal</p>
+            <p class="font-semibold">Blood Donation Portal</p>
+          </div>
+          <div class="space-y-1">
+            <p class="text-xs uppercase opacity-60">Next Step</p>
+            <p class="font-semibold">
+              {{
+              user.role === 'admin'
+              ? 'Review donor list'
+              : 'Keep details updated'
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT IMAGE CARD -->
+      <div class="flex justify-center">
+        <div
+          class="bg-base-100/70 border border-base-200 rounded-3xl p-4 md:p-6 shadow-xl max-w-sm w-full flex flex-col items-center gap-4">
+          <img src="assets/blood-donation-hero.png" alt="Blood donation" class="rounded-2xl w-full object-cover" />
+          <p class="text-sm text-center opacity-75 px-2">
+            “Your one donation can save up to
+            <span class="font-semibold text-primary">three lives</span>. Stay
+            available, stay a hero.”
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </section>
+</ng-container>
+
+<!-- GUEST VIEW (NOT LOGGED IN) -->
+<ng-template #guestView>
+  <section
+    class="min-h-[70vh] flex items-center justify-center px-4 py-10 bg-gradient-to-br from-base-200/40 to-base-100">
+    <div class="max-w-6xl w-full grid gap-10 lg:grid-cols-[1.6fr,1fr] items-center">
+      <!-- LEFT CONTENT -->
+      <div class="space-y-6">
+        <p class="text-sm uppercase tracking-[0.2em] opacity-70">
+          Join the Lifesaver Network
+        </p>
+
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+          Become a <span class="text-primary">lifesaver</span> today 🩸
+        </h1>
+
+        <p class="text-base md:text-lg opacity-80 max-w-xl">
+          Register as a blood donor so that hospitals and NGOs can reach you
+          quickly in emergencies. Your small act of kindness can save someone’s
+          life when they need it the most.
+        </p>
+
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a routerLink="/register" class="btn btn-primary btn-lg shadow-md hover:scale-105 transition-transform">
+            Register as Donor
+          </a>
+          <a routerLink="/login" class="btn btn-outline btn-lg">
+            Admin / Donor Login
+          </a>
+        </div>
+
+        <!-- HIGHLIGHT STRIP -->
+        <div
+          class="mt-6 flex flex-wrap gap-4 text-sm bg-base-100/60 border border-base-200 rounded-2xl p-4 backdrop-blur">
+          <div class="flex-1 min-w-[150px]">
+            <p class="font-semibold">3 lives per donation</p>
+            <p class="opacity-70">
+              One unit of blood can be separated into components and help
+              multiple patients.
+            </p>
+          </div>
+          <div class="flex-1 min-w-[150px]">
+            <p class="font-semibold">Less than 10 minutes</p>
+            <p class="opacity-70">
+              The actual blood collection time is short, but its impact is huge.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT IMAGE CARD -->
+      <div class="flex justify-center">
+        <div
+          class="bg-base-100/70 border border-base-200 rounded-3xl p-4 md:p-6 shadow-xl max-w-sm w-full flex flex-col items-center gap-4">
+          <img src="assets/blood-donation-hero.png" alt="Blood donation" class="rounded-2xl w-full object-cover" />
+          <p class="text-sm text-center opacity-75 px-2">
+            “The world always needs more
+            <span class="font-semibold text-primary">willing donors</span>. Start
+            with a simple registration.”
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-template>

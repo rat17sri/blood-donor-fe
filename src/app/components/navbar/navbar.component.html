@@ -1,39 +1,57 @@
 <div class="navbar bg-base-100 shadow-sm">
   <div class="flex-1">
-    <a
-      routerLink="/"
-      class="btn btn-ghost normal-case text-xl text-primary font-bold"
-    >
+    <a routerLink="/" class="btn btn-ghost normal-case text-xl text-primary font-bold">
       🩸 Blood Donation Portal
     </a>
   </div>
 
+  <!-- Right side -->
   <div class="flex-none gap-2">
+    <!-- Desktop menu items -->
     <ul class="menu menu-horizontal px-1 hidden sm:flex">
-      <li>
-        <a routerLink="/register" routerLinkActive="active">Register</a>
-      </li>
-      <li>
-        <a routerLink="/admin/donors" routerLinkActive="active">Admin</a>
-      </li>
+      <!-- Guest menu (not logged in) -->
+      <ng-container *ngIf="!(user$ | async); else loggedInMenu">
+        <li>
+          <a routerLink="/register" routerLinkActive="active">Register</a>
+        </li>
+      </ng-container>
+
+      <!-- Logged-in menu -->
+      <ng-template #loggedInMenu>
+        <!-- Donor: show 'My Details' -->
+        <li *ngIf="(user$ | async)?.role === 'user'">
+          <a routerLink="/register" routerLinkActive="active">
+            My Details
+          </a>
+        </li>
+
+        <!-- Admin: show single 'Admin Panel' link -->
+        <li *ngIf="(user$ | async)?.role === 'admin'">
+          <a routerLink="/admin/donors" routerLinkActive="active">
+            Admin Panel
+          </a>
+        </li>
+      </ng-template>
     </ul>
 
-    <div class="dropdown dropdown-end" *ngIf="user$ | async as user; else guest">
+    <!-- Avatar / Login button -->
+    <div class="dropdown dropdown-end" *ngIf="user$ | async as user; else guestBtn">
       <label tabindex="0" class="btn btn-ghost btn-circle avatar placeholder">
         <div class="bg-primary text-primary-content rounded-full w-10">
           <span>{{ user.name[0] | uppercase }}</span>
         </div>
       </label>
-      <ul
-        tabindex="0"
-        class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
-      >
-        <li class="px-2 py-1 text-sm opacity-70">Hi, {{ user.name }}</li>
+      <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+        <li class="px-2 py-1 text-sm opacity-70">
+          Hi, {{ user.name }}
+        </li>
+
         <li><a (click)="logout()">Logout</a></li>
       </ul>
     </div>
 
-    <ng-template #guest>
+    <!-- Guest login button -->
+    <ng-template #guestBtn>
       <a routerLink="/login" class="btn btn-primary btn-sm">Login</a>
     </ng-template>
   </div>
