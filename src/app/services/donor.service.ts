@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DonorService {
-  private apiUrl = 'https://blood-donor-be.onrender.com/api/donors';
+  private apiUrl = '/api/donors';
 
   constructor(private http: HttpClient) { }
 

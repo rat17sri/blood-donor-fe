@@ -1,20 +1,16 @@
-<div class="space-y-4">
-  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-    <h2 class="text-3xl font-bold">Registered Donors</h2>
-    <span class="badge badge-outline" *ngIf="donors?.length">
+<div class="max-w-6xl mx-auto px-6 py-10">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-neutral">Registered Donors</h1>
+
+    <span class="badge badge-lg border border-primary text-primary">
       Total donors: {{ donors.length }}
     </span>
   </div>
 
-  <p *ngIf="loading" class="flex items-center gap-2">
-    <span class="loading loading-spinner loading-sm"></span> Loading donors...
-  </p>
-
-  <p *ngIf="errorMsg" class="text-error">{{ errorMsg }}</p>
-
-  <div *ngIf="!loading && donors.length" class="overflow-x-auto">
-    <table class="table table-zebra table-sm md:table-md">
-      <thead>
+  <!-- Table Container -->
+  <div class="overflow-x-auto border rounded-xl bg-white shadow-sm">
+    <table class="table table-zebra w-full">
+      <thead class="bg-base-200">
         <tr>
           <th>#</th>
           <th>Name</th>
@@ -27,34 +23,34 @@
           <th>Registered On</th>
         </tr>
       </thead>
+
       <tbody>
-        <tr *ngFor="let d of donors; let i = index">
+        <tr *ngFor="let donor of donors; index as i">
           <td>{{ i + 1 }}</td>
-          <td>{{ d.name }}</td>
-          <td class="whitespace-nowrap">{{ d.email }}</td>
-          <td class="whitespace-nowrap">{{ d.phone }}</td>
+          <td class="font-medium">{{ donor.name }}</td>
+          <td>{{ donor.email }}</td>
+          <td>{{ donor.phone }}</td>
+
           <td>
-            <span class="badge badge-primary badge-outline">
-              {{ d.bloodGroup }}
+            <span class="badge badge-outline border-primary text-primary">
+              {{ donor.bloodGroup }}
             </span>
           </td>
-          <td>{{ d.city }}</td>
-          <td>{{ d.lastDonationDate | date: 'mediumDate' }}</td>
+
+          <td>{{ donor.city }}</td>
+          <td>{{ donor.lastDonation || '—' }}</td>
+
           <td>
-            <span
-              class="badge"
-              [ngClass]="d.isAvailable ? 'badge-success' : 'badge-ghost'"
-            >
-              {{ d.isAvailable ? 'Yes' : 'No' }}
+            <span class="badge text-white" [ngClass]="donor.isAvailable ? 'badge-success' : 'badge-error'">
+              {{ donor.isAvailable ? 'Yes' : 'No' }}
             </span>
           </td>
-          <td>{{ d.createdAt | date: 'medium' }}</td>
+
+          <td>
+            {{ donor.createdAt | date: 'MMM dd, yyyy, h:mm a' }}
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
-
-  <p *ngIf="!loading && !donors.length" class="opacity-70">
-    No donors registered yet.
-  </p>
 </div>
