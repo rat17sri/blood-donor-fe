@@ -19,7 +19,7 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = '/api/auth';
+  private apiUrl = 'https://blood-donor-be.onrender.com/api/auth';
 
   private currentUserSubject = new BehaviorSubject<UserInfo | null>(
     AuthService.getUserFromStorage()
